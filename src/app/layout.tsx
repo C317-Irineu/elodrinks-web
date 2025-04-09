@@ -2,7 +2,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Minha Aplicação',
+  title: 'ELO DRINKS',
   description: 'Descrição aqui',
 };
 

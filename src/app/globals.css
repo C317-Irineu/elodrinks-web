@@ -11,3 +11,137 @@ body {
   font-family: 'Alumni Sans', sans-serif;
   font-size: 10rem;
 }
+
+.container {
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fdf2e1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.headerContainer {
+  background-color: #fdf2e1;
+  width: 100%;
+  padding: 40px;
+  text-align: left;
+  color: black;
+  border-top: 35px solid #d4883a;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.header {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.paragraph {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.formContainer {
+  background-color: white;
+  padding: 3%;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  max-height: 55%;
+  margin-left: 25%;
+}
+
+.progressBar {
+  display: flex;
+  margin-left: 15%;
+  justify-content: space-between;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 30%;
+  margin-left: 35%
+}
+
+.progressStep {
+  font-size: 14px;
+  color: #6c6c6c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.activeStep {
+  color: #d4883a;
+  font-weight: bold;
+}
+
+.stepCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  margin-bottom: 5px;
+  border: 1px solid #d4883a;
+}
+
+.activeCircle {
+  background-color: #d4883a;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 1rem;
+  color: #3c3c3c;
+  margin-bottom: 5px;
+  margin-left: 5%;
+}
+
+.input {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #d4883a;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-left: 5%;
+}
+
+.button {
+  width: 30%;
+  padding: 12px;
+  background-color: #d4883a;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 35%;
+  margin-top: 5%;
+}
+
+.h1 {
+  font-family: 'Alumni Sans', sans-serif;
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #3D3933;
+  text-align: left;
+  margin-left: 10%;
+}
+
+.h2 {
+  font-family: 'Alumni Sans', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #3D3933;
+  font-weight: 400;
+  text-align: left;
+  margin-left: 10%;
+}

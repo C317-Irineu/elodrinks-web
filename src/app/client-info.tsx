@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import './globals.css'; // Importando o CSS global
+import './globals.css';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -34,8 +34,8 @@ const Form = () => {
     <div>
       <h1 className='h1'>Quer a Elo Drinks no seu evento?</h1>
       <h2 className='h2'>Para isso, preencha os dados abaixo para podermos fazer um orçamento:</h2>
-      <div className="formContainer">
-        <div className="progressBar">
+
+      <div className="progressBar">
           <div className={`progressStep ${currentStep === 1 ? 'activeStep' : ''}`}>
             <div className={`stepCircle ${currentStep === 1 ? 'activeCircle' : ''}`}></div>
             Suas informações
@@ -47,9 +47,10 @@ const Form = () => {
           <div className={`progressStep ${currentStep === 3 ? 'activeStep' : ''}`}>
             <div className={`stepCircle ${currentStep === 3 ? 'activeCircle' : ''}`}></div>
             Informações do bar
-          </div>
+        </div>
         </div>
 
+      <div className="formContainer">
         {/* Form */}
         <form onSubmit={handleSubmit}>
           <div className="inputGroup">
@@ -96,7 +97,7 @@ const Form = () => {
           </button>
         </form>
       </div>
-    </div>
+      </div>
   );
 };
 

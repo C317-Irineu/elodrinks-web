@@ -19,7 +19,7 @@ export default function Home() {
 
       <section
         id="third-section"
-        className="h-screen bg-[#FFF3E4] flex flex-col items-center justify-start pt-10"
+        className="h-screen bg-[#FFF3E4] flex flex-col justify-start pt-10"
       >
         <Form />
       </section>

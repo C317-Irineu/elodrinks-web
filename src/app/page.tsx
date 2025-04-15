@@ -1,16 +1,21 @@
+'use client';
+
 export default function Home() {
   return (
     <main className="w-full">
       <section className="h-screen bg-[url('/background.png')] bg-cover bg-center relative px-8">
         <div className="absolute top-4 right-4 flex space-x-4">
-          <button className="border-[2px] border-[#343230] bg-transparent text-[#343230] font-bold py-1 px-2 rounded-md">
-            Fazer um orçamento
-          </button>
+            <button
+              onClick={() => window.location.href = '/suaInfo'}
+              className="border-[2px] border-[#343230] bg-transparent text-[#343230] font-bold py-1 px-2 rounded-md"
+            >
+              Fazer um orçamento
+            </button>
           <button className="border-[2px] border-[#343230] bg-transparent text-[#343230] font-bold py-1 px-2 rounded-md">
               Quem somos
           </button>
           <button>
-          <img src="/instagram_icon.png" alt="Ícone" className="w-10 h-10" />
+            <img src="/instagram_icon.png" alt="Ícone" className="w-10 h-10" />
           </button>
         </div>
 

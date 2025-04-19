@@ -27,9 +27,11 @@ export default function FirstSection() {
         <button onClick={scrollToSecondSection}  className="border-[2px] border-[#343230] bg-transparent text-[#343230] font-bold py-1 px-2 rounded-md">
           Quem somos
         </button>
-        <button>
-          <img src="/instagram_icon.png" alt="Ícone" className="w-10 h-10" />
-        </button>
+        <a href="https://www.instagram.com/elodrinks" target="_blank" rel="noopener noreferrer">
+          <button>
+            <img src="/instagram_icon.png" alt="Ícone" className="w-10 h-10" />
+          </button>
+        </a>
       </div>
 
       <div className="h-full flex items-end">

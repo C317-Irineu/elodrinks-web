@@ -234,3 +234,16 @@ body {
 .rotate90 {
   transform: rotate(180deg);
 }
+
+.p {
+  font-family: 'Alumni Sans', sans-serif;
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #3D3933;
+  text-align: center;
+  margin-top: 30%;
+  max-width: 90%;
+  word-wrap: break-word;
+  padding-left: 10%;
+}

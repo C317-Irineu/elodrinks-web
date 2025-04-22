@@ -12,9 +12,13 @@ export default function Home() {
 
       <section
         id="second-section"
-        className="h-screen bg-[#FFF3E4] flex items-center justify-center"
+        className="h-screen bg-[url('/quemSomos.png')] bg-cover bg-center bg-no-repeat relative px-8 flex items-center justify-start"
       >
-        <h2 className="text-4xl font-bold text-gray-800 font-alumni">Seção 2</h2>
+        <div className="max-w-4xl w-full px-4">
+          <p className="p">
+          A Elo Drinks é especializada em serviços de coquetelaria para eventos sociais e eventos corporativos. Hoje ela vem sendo reconhecida no mercado de eventos corporativos e de wedding por indicações dos melhores assessores, decoradores e espaço de eventos da Grande São Paulo por terem ótimos profissionais e um excelente atendimento.
+          </p>
+        </div>
       </section>
 
       <section

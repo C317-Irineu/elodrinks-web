@@ -227,6 +227,7 @@ body {
 }
 
 .extrasItem{
+  padding: 0.1rem;
   flex-direction: row;
   justify-content: space-between;
 }

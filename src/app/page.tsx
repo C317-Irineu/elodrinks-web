@@ -1,7 +1,7 @@
 'use client';
 
 import FirstSection from './first-section';
-import Form from './client-info';
+import MultiStepForm from './clientInfo/client-info';
 
 export default function Home() {
   return (
@@ -25,7 +25,7 @@ export default function Home() {
         id="third-section"
         className="h-screen bg-[#FFF3E4] flex flex-col justify-start pt-10"
       >
-        <Form />
+        <MultiStepForm />
       </section>
     </main>
   );

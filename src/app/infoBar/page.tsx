@@ -122,8 +122,8 @@ const InfoBar = () => {
     <button type="submit" className="button">
       Próximo
     </button>
-    </form>
-  </div>
+  </form>
+</div>
   </div>
   );
 }

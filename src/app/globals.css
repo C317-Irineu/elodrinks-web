@@ -214,22 +214,35 @@ body {
 
 .planDetails{
   flex-direction: column;
-
+  text-align: center;
+  flex: 1;
 }
 
 .planContainer{
+  width: 90%;
   flex-direction: row;
+  align-self: center;
+  margin-left: 5%;
   justify-content: space-between;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #d4883a;
+  border-radius: 8px;
+  background-color: #fff;
 }
 
 .extrasList{
-  flex-direction: row;
-}
-
-.extrasItem{
-  padding: 0.1rem;
+  display: flex;
+  margin-left: 5%;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.extrasItem {
+  display: flex; 
+  align-items: center; 
+  padding: 0.1rem;
 }
 
 .rotate90 {
@@ -247,4 +260,27 @@ body {
   max-width: 90%;
   word-wrap: break-word;
   padding-left: 10%;
+}
+
+.planButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.planButton img {
+  width: 20px;
+  height: 20px;
+}
+
+.planDetails h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.planDetails p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
 }

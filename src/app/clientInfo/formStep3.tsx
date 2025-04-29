@@ -69,7 +69,7 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
 
         <h3 className="label">Extras:</h3>
         <div className="extrasList">
-          <li className="extrasItem">
+          <div className="extrasItem">
             <input
               type="checkbox"
               name="extras"
@@ -79,8 +79,8 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
               className="checkbox"
             />
             Moscow Mule - <span className="extrasPrice">R$ 20</span>
-          </li>
-          <li className="extrasItem">
+          </div>
+          <div className="extrasItem">
             <input
               type="checkbox"
               name="extras"
@@ -90,8 +90,8 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
               className="checkbox"
             />
             Ginger Beer - <span className="extrasPrice">R$ 15</span>
-          </li>
-          <li className="extrasItem">
+          </div>
+          <div className="extrasItem">
             <input
               type="checkbox"
               name="extras"
@@ -101,7 +101,7 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
               className="checkbox"
             />
             Gin Tônica - <span className="extrasPrice">R$ 30</span>
-          </li>
+          </div>
         </div>
       </form>
     </div>

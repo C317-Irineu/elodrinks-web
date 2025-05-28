@@ -42,7 +42,7 @@ const MultiStepForm = () => {
       setCurrentStep((prev) => prev + 1);
     } else {
       console.log(formData);
-      router.push('/partyInfo');
+      router.push('/admin');
     }
   };
 
@@ -53,23 +53,23 @@ const MultiStepForm = () => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log('Form submitted:', formData);
-      router.push('/partyInfo');
-    };
-  
-    const renderStep = () => {
-      switch (currentStep) {
-        case 1:
-          return <FormStep1 formData={formData} handleChange={handleChange} />;
-        case 2:
-          return <FormStep2 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} />;
-        case 3:
-          return <FormStep3 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleExtrasChange={handleExtrasChange} />;
-        default:
-          return null;
-      }
-    };
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    router.push('/partyInfo');
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <FormStep1 formData={formData} handleChange={handleChange} />;
+      case 2:
+        return <FormStep2 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} />;
+      case 3:
+        return <FormStep3 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleExtrasChange={handleExtrasChange} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <div>

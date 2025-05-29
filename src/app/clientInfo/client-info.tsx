@@ -42,7 +42,7 @@ const MultiStepForm = () => {
       setCurrentStep((prev) => prev + 1);
     } else {
       console.log(formData);
-      router.push('/admin');
+      router.push('/finishMessage');
     }
   };
 

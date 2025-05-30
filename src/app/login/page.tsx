@@ -10,14 +10,18 @@ export default function LoginPage() {
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
 
+  const [shake, setShake] = useState(false);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Simulação de verificação simples
+  
     if (usuario === 'admin' && senha === 'senha123') {
+      setErro('');
       router.push('/admin');
     } else {
       setErro('Usuário ou senha incorretos.');
+      setShake(false); // zera primeiro
+      setTimeout(() => setShake(true), 10); // força reatribuição após pequeno atraso
     }
   };
 
@@ -28,7 +32,7 @@ export default function LoginPage() {
 
         {erro && <p className="text-red-500 text-lg text-center mb-4">{erro}</p>}
 
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form onSubmit={handleLogin} className={`space-y-5 ${shake ? 'animate-shake' : ''}`}>
           <div>
             <label htmlFor="usuario" className="block text-lg font-medium text-gray-700">Usuário</label>
             <input

@@ -147,6 +147,7 @@ export default function AdminPage() {
               {detalhesVisiveis === pedido.id && (
                 <button
                   className="bg-[#007366] text-white py-2 px-6 rounded-xl text-base font-medium hover:bg-[#00584e] transition"
+                  onClick={() => window.location.href = "/answer"}
                 >
                   Responder Orçamento
                 </button>

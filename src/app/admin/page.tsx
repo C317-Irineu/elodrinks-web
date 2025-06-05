@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { getBudgets } from "../../../services/budgetService";
 
 type Pedido = {
-  id: number;
+  id: string;
   nome: string;
   email: string;
   telefone: string;
@@ -16,7 +17,7 @@ type Pedido = {
   numeroBarmans: number;
   extras: string[];
   data?: string;
-  aceito?: boolean; // novo campo
+  aceito?: boolean;
 };
 
 const planos = [
@@ -37,51 +38,55 @@ const planos = [
   },
 ];
 
-const pedidosFakes: Pedido[] = [
-  {
-    id: 1,
-    nome: "Lucas Fernandes",
-    email: "lucas@email.com",
-    telefone: "(11) 91234-5678",
-    numeroConvidados: 100,
-    tipoEvento: "Casamento",
-    localizacao: "São Paulo - SP",
-    plano: "Deluxe",
-    numeroBarmans: 4,
-    extras: ["Moscow Mule", "Gin Tônica"],
-    data: "2024-06-01",
-    aceito: true,
-  },
-  {
-    id: 2,
-    nome: "Carla Souza",
-    email: "carla@gmail.com",
-    telefone: "(21) 98888-9999",
-    numeroConvidados: 60,
-    tipoEvento: "Aniversário",
-    localizacao: "Rio de Janeiro - RJ",
-    plano: "Premium",
-    numeroBarmans: 2,
-    extras: [],
-    data: "2024-06-02",
-    aceito: false,
-  },
-];
-
 export default function AdminPage() {
-  const [detalhesVisiveis, setDetalhesVisiveis] = useState<number | null>(null);
+  const [detalhesVisiveis, setDetalhesVisiveis] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [pedidos, setPedidos] = useState<Pedido[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const toggleDetalhes = (id: number) => {
+  useEffect(() => {
+    async function fetchPedidos() {
+      setLoading(true);
+      try {
+        const data = await getBudgets();
+        let budgets: any[] = [];
+        if (Array.isArray(data)) {
+          budgets = data;
+        } else if (typeof data === "object" && data !== null && "budgets" in data && Array.isArray((data as any).budgets)) {
+          budgets = (data as any).budgets;
+        }
+        const pedidosMapeados: Pedido[] = budgets.map((item: any) => ({
+          id: item._id,
+          nome: item.name,
+          email: item.email,
+          telefone: item.phone,
+          numeroConvidados: item.budget?.num_guests ?? 0,
+          tipoEvento: item.budget?.type ?? "",
+          localizacao: item.budget?.description ?? "",
+          plano: item.budget?.package ?? "Basic",
+          numeroBarmans: item.budget?.num_barmans ?? 0,
+          extras: item.budget?.extras ?? [],
+          data: item.budget?.date ?? "",
+          aceito: item.status === "Aprovado",
+        }));
+        setPedidos(pedidosMapeados);
+      } catch (err) {
+        setPedidos([]);
+      }
+      setLoading(false);
+    }
+    fetchPedidos();
+  }, []);
+
+  const toggleDetalhes = (id: string) => {
     setDetalhesVisiveis(detalhesVisiveis === id ? null : id);
   };
 
   const pedidosDoDia = selectedDate
-    ? pedidosFakes.filter(
-      (p) =>
-        p.data === selectedDate.toISOString().slice(0, 10)
+    ? pedidos.filter(
+      (p) => p.data === selectedDate.toISOString().slice(0, 10)
     )
-    : pedidosFakes;
+    : pedidos;
 
   return (
     <div className="min-h-screen bg-[#fdf2e1] py-16 px-4">
@@ -102,7 +107,12 @@ export default function AdminPage() {
       </div>
       <h1 className="h1 !text-center !ml-0">Pedidos de Orçamento</h1>
       <div className="space-y-10 max-w-2xl mx-auto">
-        {pedidosDoDia.length === 0 && (
+        {loading && (
+          <div className="bg-white rounded-xl p-6 text-center text-[#3D3933] shadow">
+            Carregando pedidos...
+          </div>
+        )}
+        {!loading && pedidosDoDia.length === 0 && (
           <div className="bg-white rounded-xl p-6 text-center text-[#3D3933] shadow">
             Nenhum agendamento para o dia selecionado.
           </div>
@@ -147,7 +157,7 @@ export default function AdminPage() {
               {detalhesVisiveis === pedido.id && (
                 <button
                   className="bg-[#007366] text-white py-2 px-6 rounded-xl text-base font-medium hover:bg-[#00584e] transition"
-                  onClick={() => window.location.href = "/answer"}
+                  onClick={() => window.location.href = `/answer?_id=${pedido.id}`}
                 >
                   Responder Orçamento
                 </button>

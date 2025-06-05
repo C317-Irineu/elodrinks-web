@@ -5,6 +5,7 @@ import FormStep1 from './formStep1';
 import FormStep2 from './formStep2';
 import FormStep3 from './formStep3';
 import '../globals.css';
+import { createBudget } from '../../../services/budgetService';
 
 const MultiStepForm = () => {
   const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ const MultiStepForm = () => {
     return true;
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!validateStep()) {
       setShowErrors(true);
       return;
@@ -61,8 +62,29 @@ const MultiStepForm = () => {
     if (currentStep < 3) {
       setCurrentStep((prev) => prev + 1);
     } else {
-      // Aqui você pode enviar o formData para a API antes de redirecionar
-      router.push('/finishMessage');
+      // Integração com a API
+      try {
+        await createBudget({
+          name: formData.nome,
+          email: formData.email,
+          phone: formData.telefone,
+          budget: {
+            description: formData.localizacao,
+            type: formData.tipoEvento,
+            date: "", // Adapte se tiver campo de data
+            num_barmans: Number(formData.numBarmans),
+            num_guests: Number(formData.numConvidados),
+            time: 0, // Adapte se tiver campo de tempo
+            package: formData.tipoBar,
+            extras: formData.extras,
+          },
+          status: "Pendente",
+          value: 0,
+        });
+        router.push('/finishMessage');
+      } catch (err) {
+        alert("Erro ao enviar orçamento. Tente novamente.");
+      }
     }
   };
 

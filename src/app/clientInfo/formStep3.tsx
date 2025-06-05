@@ -17,7 +17,13 @@ interface InfoBarProps {
   handleSubmit: (e: React.FormEvent) => void;
 }
 
-const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtrasChange, handleSubmit }) => {
+const FormStep3: React.FC<InfoBarProps & { showErrors?: boolean }> = ({
+  formData,
+  handleChange,
+  handleExtrasChange,
+  handleSubmit,
+  showErrors,
+}) => {
   const [currentPlan, setCurrentPlan] = React.useState(0); // Selected plan
   const plans = [
     { name: "Basic: Bebidas refrescantes com opções alcoólicas simples e populares.", description: "Coca-Cola, Guaraná, Sprite, Água mineral com e sem gás, suco natural: Laranja ou Maracujá, Cerveja Pilsen (long neck ou latão): Skol, Brahma ou Itaipava, Ice alcoólica (Smirnoff Ice ou similar), Chopp claro (opcional)" },
@@ -64,6 +70,9 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
             className="input"
             required
           />
+          {showErrors && !formData.numBarmans && (
+            <span className="error">O número de barmans é obrigatório.</span>
+          )}
         </div>
 
         <div className="inputGroup">
@@ -81,6 +90,9 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
             <option value="Premium">Premium</option>
             <option value="Deluxe">Deluxe</option>
           </select>
+          {showErrors && !formData.tipoBar && (
+            <span className="error">O plano é obrigatório.</span>
+          )}
         </div>
 
         <h3 className="label">Extras:</h3>
@@ -251,6 +263,10 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
             rows={3}
             placeholder="Alguma observação extra?"
           />
+          {/* Se quiser tornar observações obrigatório, descomente abaixo */}
+          {/* {showErrors && !formData.observacoes && (
+            <span className="error">A observação é obrigatória.</span>
+          )} */}
         </div>
       </form>
     </div>

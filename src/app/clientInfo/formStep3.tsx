@@ -12,7 +12,7 @@ interface InfoBarProps {
     extras: string[];
     observacoes: string;
   };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
   handleExtrasChange: (extra: string) => void;
   handleSubmit: (e: React.FormEvent) => void;
 }
@@ -52,18 +52,35 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
         </div>
 
         <div className="inputGroup">
-          <label htmlFor="numConvidados" className="label">
+          <label htmlFor="numBarmans" className="label">
             Número de Barmans:
           </label>
           <input
             type="number"
-            id="numConvidados"
-            name="numConvidados"
-            value={formData.numConvidados}
+            id="numBarmans"
+            name="numBarmans"
+            value={formData.numBarmans}
             onChange={handleChange}
             className="input"
             required
           />
+        </div>
+
+        <div className="inputGroup">
+          <label htmlFor="tipoBar" className="label">Plano:</label>
+          <select
+            id="tipoBar"
+            name="tipoBar"
+            value={formData.tipoBar}
+            onChange={handleChange}
+            className="input"
+            required
+          >
+            <option value="">Selecione</option>
+            <option value="Basic">Basic</option>
+            <option value="Premium">Premium</option>
+            <option value="Deluxe">Deluxe</option>
+          </select>
         </div>
 
         <h3 className="label">Extras:</h3>
@@ -221,6 +238,19 @@ const FormStep3: React.FC<InfoBarProps> = ({ formData, handleChange, handleExtra
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="inputGroup">
+          <label htmlFor="observacoes" className="label">Observações:</label>
+          <textarea
+            id="observacoes"
+            name="observacoes"
+            value={formData.observacoes}
+            onChange={handleChange}
+            className="input"
+            rows={3}
+            placeholder="Alguma observação extra?"
+          />
         </div>
       </form>
     </div>

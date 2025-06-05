@@ -21,6 +21,7 @@ const MultiStepForm = () => {
   });
 
   const [currentStep, setCurrentStep] = useState(1);
+  const [showErrors, setShowErrors] = useState(false);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -37,11 +38,30 @@ const MultiStepForm = () => {
     });
   };
 
+  // Validação dos campos obrigatórios por etapa
+  const validateStep = () => {
+    if (currentStep === 1) {
+      return formData.nome && formData.email && formData.telefone;
+    }
+    if (currentStep === 2) {
+      return formData.numConvidados && formData.tipoEvento && formData.localizacao;
+    }
+    if (currentStep === 3) {
+      return formData.numBarmans && formData.tipoBar;
+    }
+    return true;
+  };
+
   const handleNext = () => {
+    if (!validateStep()) {
+      setShowErrors(true);
+      return;
+    }
+    setShowErrors(false);
     if (currentStep < 3) {
       setCurrentStep((prev) => prev + 1);
     } else {
-      console.log(formData);
+      // Aqui você pode enviar o formData para a API antes de redirecionar
       router.push('/finishMessage');
     }
   };
@@ -49,23 +69,24 @@ const MultiStepForm = () => {
   const handlePrev = () => {
     if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1);
+      setShowErrors(false);
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    // Aqui você pode enviar o formData para a API
     router.push('/partyInfo');
   };
 
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <FormStep1 formData={formData} handleChange={handleChange} />;
+        return <FormStep1 formData={formData} handleChange={handleChange} showErrors={showErrors} />;
       case 2:
-        return <FormStep2 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} />;
+        return <FormStep2 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} showErrors={showErrors} />;
       case 3:
-        return <FormStep3 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleExtrasChange={handleExtrasChange} />;
+        return <FormStep3 formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} handleExtrasChange={handleExtrasChange} showErrors={showErrors} />;
       default:
         return null;
     }

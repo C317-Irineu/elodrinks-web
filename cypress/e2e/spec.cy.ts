@@ -213,3 +213,125 @@ it('exibe mensagem de erro quando o orçamento é feito incorretamente', () => {
   // Verifica se a mensagem de erro aparece
   cy.contains('O nome é obrigatório.').should('be.visible');
 });
+
+describe('Testes de integração', () => {
+  const baseUrl = 'http://localhost:3000';
+
+  it('cria um orçamento e envia corretamente para o backend', () => {
+    cy.intercept('POST', 'https://elodrinks-api.onrender.com/budget').as('createBudget');
+
+    cy.visit(`${baseUrl}/`);
+
+    // Simula preenchimento básico para acionar a criação do orçamento
+    cy.get('input[name="nome"]').type('Lucas Teste');
+    cy.get('input[name="email"]').type('lucas@email.com');
+    cy.get('input[name="telefone"]').type('11999999999');
+    cy.contains(/próximo/i).click();
+
+    cy.get('input[name="numConvidados"]').type('100');
+    cy.get('input[name="tipoEvento"]').type('Festa');
+    cy.get('input[name="localizacao"]').type('BH');
+    cy.contains(/próximo/i).click();
+
+    cy.get('input[name="numBarmans"]').type('3');
+    cy.get('select[name="tipoBar"]').select('Premium');
+    cy.get('input[type="checkbox"]').first().check();
+    cy.get('textarea[name="observacoes"]').type('Teste intercept');
+    cy.contains(/finalizar/i).click();
+
+    cy.wait('@createBudget').then((interception) => {
+      expect(interception.response.statusCode).to.be.oneOf([200, 201]);
+      expect(interception.request.body).to.have.property('name', 'Lucas Teste');
+    });
+  });
+
+  it('busca os orçamentos pendentes na tela de administração', () => {
+    cy.intercept('GET', 'https://elodrinks-api.onrender.com/budget').as('getPendentes');
+
+    cy.visit(`${baseUrl}/admin`);
+
+    cy.wait('@getPendentes').then((interception) => {
+      expect(interception.response.statusCode).to.eq(200);
+      expect(interception.response.body.budgets).to.be.an('array');
+    });
+  });
+
+  it('cria um orçamento e responde na interface de aprovação', () => {
+    cy.intercept('POST', '**/budget').as('createBudget');
+
+    cy.visit(`${baseUrl}/`);
+
+    // simula o preenchimento do formulário
+    cy.get('input[name="nome"]').type('Roberto Souza');
+    cy.get('input[name="email"]').type('roberto@email.com');
+    cy.get('input[name="telefone"]').type('11988997799');
+    cy.contains(/próximo/i).click();
+
+    cy.get('input[name="numConvidados"]').type('50');
+    cy.get('input[name="tipoEvento"]').type('Festa');
+    cy.get('input[name="localizacao"]').type('SP');
+    cy.contains(/próximo/i).click();
+
+    cy.get('input[name="numBarmans"]').type('2');
+    cy.get('select[name="tipoBar"]').select('Premium');
+    cy.get('input[type="checkbox"]').first().check();
+    cy.get('textarea[name="observacoes"]').type('Campo de Observacoes');
+    cy.contains(/finalizar/i).click();
+    
+    cy.wait('@createBudget').then(({ response }) => {
+      expect(response.statusCode).to.eq(201);
+      const realId = response.body.id;
+      expect(realId).to.exist;
+
+      cy.intercept('PATCH', '**/budget/status').as('patchBudgetStatus');
+
+      cy.visit(`${baseUrl}/answer?_id=${realId}`);
+
+      cy.get('select').select('Sim');
+      cy.get('input[type="number"]').clear().type('99.99');
+      cy.get('textarea').type('Orçamento aprovado via teste.');
+      cy.contains('button', /enviar resposta/i).click();
+
+      cy.wait('@patchBudgetStatus').its('response.statusCode').should('eq', 200);
+    });
+  });
+
+  it('não deve disparar POST se campos obrigatórios estiverem vazios', () => {
+    cy.intercept('POST', '**/budget').as('createBudget');
+
+    cy.visit('http://localhost:3000');
+
+    // Preenche só email e telefone
+    cy.get('input[name="email"]').type('teste@email.com');
+    cy.get('input[name="telefone"]').type('11999999999');
+
+    cy.contains(/próximo/i).click();
+
+    // Confirma que o campo nome ainda está presente (não avançou)
+    cy.get('input[name="nome"]').should('exist');
+
+    // Aguarda um pouco e verifica se o POST não ocorreu
+    cy.wait(1000);
+    cy.get('@createBudget.all').should('have.length', 0);
+  });
+
+  it('não deve disparar PATCH se o valor por pessoa estiver vazio', () => {
+    cy.intercept('PATCH', '**/budget/status').as('patchBudgetStatus');
+
+    const fakeId = 'aaaa1111bbbb2222cccc3333';
+
+    cy.visit(`http://localhost:3000/answer?_id=${fakeId}`);
+
+    // Preenche apenas os campos visíveis, mas deixa o valor em branco
+    cy.get('select').select('Sim');
+    cy.get('input[type="number"]').clear(); // garante que está vazio
+    cy.get('textarea').type('Tentando sem valor');
+
+    cy.contains(/enviar resposta/i).click();
+
+    // Aguarda um pouco e verifica que nenhuma requisição PATCH foi feita
+    cy.wait(1000);
+    cy.get('@patchBudgetStatus.all').should('have.length', 0);
+  });
+
+});

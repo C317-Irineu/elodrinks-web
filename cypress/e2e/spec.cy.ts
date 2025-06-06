@@ -335,3 +335,46 @@ describe('Testes de integração', () => {
   });
 
 });
+
+describe('Testes na tela de Login', () => {
+  it('login com credenciais corretas', () => {
+    cy.visit('http://localhost:3000/login');
+
+    //logando corretamente
+    cy.get('#usuario').type('admin');
+    cy.get('#senha').type('senha123');
+
+    cy.get('.pt-4 > .w-full').click();
+
+    //esperado que trocou de pagina
+    cy.url().should('include', '/admin');
+  });
+
+  it('login com credenciais incorretas', () => {
+    cy.visit('http://localhost:3000/login');
+
+    //tentando logar com usuario/senha errado
+    cy.get('#usuario').type('mateus');
+    cy.get('#senha').type('password');
+
+    cy.get('.pt-4 > .w-full').click();
+
+    //verificando se aparece a mensagem de erro
+    cy.contains('Usuário ou senha incorretos.').should('be.visible');
+  });
+
+  it('login com campo vazio', () => {
+    cy.visit('http://localhost:3000/login');
+
+    //tentando logar com um campo vazio
+    cy.get('#usuario').type('admin');
+
+    cy.get('.pt-4 > .w-full').click();
+
+    //como nao tem senha, nao vai para a pagina do admin
+    cy.url().should('include', '/login');
+
+    //mensagem custom de erro nao pode aparecer
+    cy.contains('Usuário ou senha incorretos.').should('not.exist');
+  });
+});

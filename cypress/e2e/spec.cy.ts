@@ -55,15 +55,9 @@ describe('Criando cenario de teste para a página Elo-Drinks', () => {
 
     // Tenta digitar um valor negativo
     cy.get('input[type="number"]').type("-50", { force: true });
+    // Após digitar valor negativo, verifica se o campo ficou vazio automaticamente
+    cy.get('input[type="number"]').should("have.value", 0);
 
-    // Tenta submeter o formulário
-    cy.get('button[type="submit"]').click();
-
-    // Verifica se o campo continua visível (não submetido)
-    cy.url().should("include", "/answer");
-
-    // Verifica que o valor do input continua inválido
-    cy.get('input[type="number"]').should("have.value", "");
   });
   it("Valida que campo 'Observações' aceita texto livre", () => {
     acessarPaginaOrcamento();

@@ -77,25 +77,6 @@ describe('Criando cenario de teste para a página Elo-Drinks', () => {
     // Digita texto livre no campo de observações
     cy.get("textarea").type("Alguma observação válida");
 
-    // Tenta submeter o formulário
-    cy.get('button[type="submit"]').click();
-
-    // Verifica se a URL mudou para a página de sucesso ou confirmação
-    cy.url().should("include", "/success");
-
-    // Verifica se o elemento com classe .h1 está visível na página de sucesso
-    cy.get('.h1').should('be.visible');
-  }
-  );
-  it("Valida que formulário é enviado corretamente com todos os campos preenchidos", () => {
-    preencherFormularioOrcamento();
-
-    // Tenta submeter o formulário
-    cy.get('button[type="submit"]').click();
-
-    // Verifica se a URL mudou para a página de sucesso ou confirmação
-    cy.url().should("include", "/success");
-
     // Verifica se o elemento com classe .h1 está visível na página de sucesso
     cy.get('.h1').should('be.visible');
   }

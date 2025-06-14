@@ -65,6 +65,7 @@ describe('Criando cenario de teste para a página Elo-Drinks', () => {
     // Verifica que o valor do input continua inválido
     cy.get('input[type="number"]').should("have.value", "");
   });
+
   it("Valida que campo 'Observações' aceita texto livre", () => {
     acessarPaginaOrcamento();
 
@@ -87,6 +88,7 @@ describe('Criando cenario de teste para a página Elo-Drinks', () => {
     cy.get('.h1').should('be.visible');
   }
   );
+
   it("Valida que formulário é enviado corretamente com todos os campos preenchidos", () => {
     preencherFormularioOrcamento();
 
@@ -100,6 +102,7 @@ describe('Criando cenario de teste para a página Elo-Drinks', () => {
     cy.get('.h1').should('be.visible');
   }
   );
+
   it("Valida que formulário não é enviado com campos obrigatórios vazios", () => {
     acessarPaginaOrcamento();
 

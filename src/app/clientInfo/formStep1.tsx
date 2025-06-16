@@ -1,11 +1,13 @@
 import React from 'react';
+import '../globals.css';
 
 interface FormStepProps {
   formData: { nome: string; email: string; telefone: string };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  showErrors?: boolean;
 }
 
-const FormStep1 = ({ formData, handleChange }: FormStepProps) => (
+const FormStep1 = ({ formData, handleChange, showErrors }: FormStepProps) => (
   <>
     <div className="inputGroup">
       <label className="label">Nome:</label>
@@ -17,6 +19,9 @@ const FormStep1 = ({ formData, handleChange }: FormStepProps) => (
         className="input"
         required
       />
+      {showErrors && !formData.nome && (
+        <span className="error">O nome é obrigatório.</span>
+      )}
     </div>
     <div className="inputGroup">
       <label className="label">E-mail:</label>
@@ -28,6 +33,9 @@ const FormStep1 = ({ formData, handleChange }: FormStepProps) => (
         className="input"
         required
       />
+      {showErrors && !formData.email && (
+        <span className="error">O e-mail é obrigatório.</span>
+      )}
     </div>
     <div className="inputGroup">
       <label className="label">Telefone:</label>
@@ -39,6 +47,9 @@ const FormStep1 = ({ formData, handleChange }: FormStepProps) => (
         className="input"
         required
       />
+      {showErrors && !formData.telefone && (
+        <span className="error">O telefone é obrigatório.</span>
+      )}
     </div>
   </>
 );

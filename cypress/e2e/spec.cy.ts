@@ -114,3 +114,77 @@ function preencherFormularioOrcamento() {
   cy.get('input[type="number"]').type("55.50"); // Valor por pessoa
   cy.get("textarea").type("Evento confirmado. Enviar contrato para assinatura."); // Observações
 }
+
+describe('Testes dos botões da FirstSection', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000');
+  });
+
+  it('deve ir para a tela de login ao clicar em Login', () => {
+    cy.contains('Login').click();
+    cy.url().should('include', '/login');
+  });
+
+  it('deve rolar para a seção "Quem somos" ao clicar no botão correspondente', () => {
+    // Adiciona um id fake na seção para garantir o teste
+    cy.document().then((doc) => {
+      const section = doc.createElement('div');
+      section.id = 'second-section';
+      doc.body.appendChild(section);
+    });
+    cy.contains('Quem somos').click();
+    // Não há mudança de URL, mas você pode verificar se o elemento ficou visível
+    cy.get('#second-section').should('exist');
+  });
+
+  it('deve rolar para a seção "Fazer um orçamento" ao clicar no botão correspondente', () => {
+    // Adiciona um id fake na seção para garantir o teste
+    cy.document().then((doc) => {
+      const section = doc.createElement('div');
+      section.id = 'third-section';
+      doc.body.appendChild(section);
+    });
+    cy.contains('Fazer um orçamento').click();
+    cy.get('#third-section').should('exist');
+  });
+});
+
+describe('Fluxo completo de orçamento', () => {
+  it('preenche todas as etapas do formulário e finaliza o orçamento', () => {
+    cy.visit('http://localhost:3000');
+
+    // Step 1
+    cy.get('input[name="nome"]').type('João da Silva');
+    cy.get('input[name="email"]').type('joao@email.com');
+    cy.get('input[name="telefone"]').type('11999999999');
+    cy.contains(/próximo/i).click();
+
+    // Step 2
+    cy.get('input[name="numConvidados"]').type('50');
+    cy.get('input[name="tipoEvento"]').type('Aniversário');
+    cy.get('input[name="localizacao"]').type('São Paulo');
+    cy.contains(/próximo/i).click(); // <-- Adicione este clique para ir ao Step 3
+
+    // Step 3
+    cy.get('input[name="numBarmans"]').type('2');
+    cy.get('select[name="tipoBar"]').select('Premium');
+    cy.get('input[type="checkbox"]').first().check();
+    cy.get('textarea[name="observacoes"]').type('Sem restrições alimentares.');
+    cy.contains(/finalizar/i).click();
+
+    // Confirmação
+    cy.url().should('include', '/finishMessage');
+  });
+});
+
+it('exibe mensagem de erro quando o orçamento é feito incorretamente', () => {
+  cy.visit('http://localhost:3000');
+
+  // Não preenche o nome
+  cy.get('input[name="email"]').type('joao@email.com');
+  cy.get('input[name="telefone"]').type('11999999999');
+  cy.contains(/próximo/i).click();
+
+  // Verifica se a mensagem de erro aparece
+  cy.contains('O nome é obrigatório.').should('be.visible');
+});

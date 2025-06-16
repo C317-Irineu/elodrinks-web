@@ -76,14 +76,20 @@ export default function ResponderOrcamento() {
                 Valor do orçamento completo (R$)
               </label>
               <input
-                type="number"
-                min="0"
-                step="0.01"
-                className="w-full border rounded-lg px-3 py-2"
-                value={valorPorPessoa}
-                onChange={e => setValorPorPessoa(e.target.value)}
-                placeholder="Ex: 50.00"
-                required
+              type="number"
+              min="0"
+              step="0.01"
+              className="w-full border rounded-lg px-3 py-2"
+              value={valorPorPessoa}
+              onChange={e => {
+                const value = e.target.value;
+                // Aceita apenas números positivos ou vazio
+                if (value === "" || (/^\d*\.?\d*$/.test(value) && parseFloat(value) >= 0)) {
+                setValorPorPessoa(value);
+                }
+              }}
+              placeholder="Ex: 50.00"
+              required
               />
             </div>
             <div>

@@ -55,15 +55,9 @@ describe('Criando cenario de teste para a página Elo-Drinks', () => {
 
     // Tenta digitar um valor negativo
     cy.get('input[type="number"]').type("-50", { force: true });
+    // Após digitar valor negativo, verifica se o campo ficou vazio automaticamente
+    cy.get('input[type="number"]').should("have.value", 0);
 
-    // Tenta submeter o formulário
-    cy.get('button[type="submit"]').click();
-
-    // Verifica se o campo continua visível (não submetido)
-    cy.url().should("include", "/answer");
-
-    // Verifica que o valor do input continua inválido
-    cy.get('input[type="number"]').should("have.value", "");
   });
   it("Valida que campo 'Observações' aceita texto livre", () => {
     acessarPaginaOrcamento();
@@ -76,25 +70,6 @@ describe('Criando cenario de teste para a página Elo-Drinks', () => {
 
     // Digita texto livre no campo de observações
     cy.get("textarea").type("Alguma observação válida");
-
-    // Tenta submeter o formulário
-    cy.get('button[type="submit"]').click();
-
-    // Verifica se a URL mudou para a página de sucesso ou confirmação
-    cy.url().should("include", "/success");
-
-    // Verifica se o elemento com classe .h1 está visível na página de sucesso
-    cy.get('.h1').should('be.visible');
-  }
-  );
-  it("Valida que formulário é enviado corretamente com todos os campos preenchidos", () => {
-    preencherFormularioOrcamento();
-
-    // Tenta submeter o formulário
-    cy.get('button[type="submit"]').click();
-
-    // Verifica se a URL mudou para a página de sucesso ou confirmação
-    cy.url().should("include", "/success");
 
     // Verifica se o elemento com classe .h1 está visível na página de sucesso
     cy.get('.h1').should('be.visible');

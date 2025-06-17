@@ -73,7 +73,7 @@ export default function ResponderOrcamento() {
             </div>
             <div>
               <label className="block text-lg font-medium mb-1">
-              Valor por pessoa (R$)
+                Valor do orçamento completo (R$)
               </label>
               <input
               type="number"

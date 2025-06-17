@@ -16,14 +16,14 @@ export default function Home() {
       >
         <div className="max-w-4xl w-full px-4">
           <p className="p">
-          A Elo Drinks é especializada em serviços de coquetelaria para eventos sociais e eventos corporativos. Hoje ela vem sendo reconhecida no mercado de eventos corporativos e de wedding por indicações dos melhores assessores, decoradores e espaço de eventos da Grande São Paulo por terem ótimos profissionais e um excelente atendimento.
+            A Elo Drinks é especializada em serviços de coquetelaria para eventos sociais e eventos corporativos. Hoje ela vem sendo reconhecida no mercado de eventos corporativos e de wedding por indicações dos melhores assessores, decoradores e espaço de eventos da Grande São Paulo por terem ótimos profissionais e um excelente atendimento.
           </p>
         </div>
       </section>
 
       <section
         id="third-section"
-        className="h-screen bg-[#FFF3E4] flex flex-col justify-start pt-10"
+        className="min-h-screen bg-[#FFF3E4] flex flex-col justify-start pt-10"
       >
         <MultiStepForm />
       </section>

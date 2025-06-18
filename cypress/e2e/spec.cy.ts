@@ -175,18 +175,18 @@ describe('Fluxo completo de orçamento', () => {
     // Confirmação
     cy.url().should('include', '/finishMessage');
   });
-});
 
-it('exibe mensagem de erro quando o orçamento é feito incorretamente', () => {
-  cy.visit('http://localhost:3000');
+  it('exibe mensagem de erro quando o orçamento é feito incorretamente', () => {
+    cy.visit('http://localhost:3000');
 
-  // Não preenche o nome
-  cy.get('input[name="email"]').type('joao@email.com');
-  cy.get('input[name="telefone"]').type('11999999999');
-  cy.contains(/próximo/i).click();
+    // Não preenche o nome
+    cy.get('input[name="email"]').type('joao@email.com');
+    cy.get('input[name="telefone"]').type('11999999999');
+    cy.contains(/próximo/i).click();
 
-  // Verifica se a mensagem de erro aparece
-  cy.contains('O nome é obrigatório.').should('be.visible');
+    // Verifica se a mensagem de erro aparece
+    cy.contains('O nome é obrigatório.').should('be.visible');
+  });
 });
 
 describe('Testes de integração', () => {
